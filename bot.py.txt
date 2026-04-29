@@ -1,0 +1,26 @@
+from telegram import Update
+from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+
+TOKEN = "8752445359:AAHnIVcgxLNIVd6pAQvNwx-mgB9NjMjdQ3Y"
+
+OLD_USERNAME = "@MovSerColX"
+NEW_USERNAME = "@The_Wolverine_Channel"
+
+async def rename(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+
+    # replace username
+    updated_text = text.replace(OLD_USERNAME, NEW_USERNAME)
+
+    # make bold
+    bold_text = f"<b>{updated_text}</b>"
+
+    await update.message.reply_text(bold_text, parse_mode="HTML")
+
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, rename))
+
+    print("Bot Running...")
+    app.run_polling()
